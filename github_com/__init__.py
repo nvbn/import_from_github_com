@@ -6,7 +6,6 @@ class IntermediateModule:
     """Module for paths like `github_com.nvbn`."""
 
     def __init__(self, fullname):
-        self._fullname = fullname
         self.__package__ = fullname
         self.__path__ = fullname.split('.')
         self.__name__ = fullname
