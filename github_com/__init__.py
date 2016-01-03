@@ -24,13 +24,14 @@ class GithubComLoader:
 
     def _is_installed(self, fullname):
         try:
-            __import__(self._get_module_name(fullname))
+            self._import_module(fullname)
             return True
         except ImportError:
             return False
 
-    def _get_module_name(self, fullname):
-        return '.'.join(fullname.split('.')[2:])
+    def _import_module(self, fullname):
+        actual_name = '.'.join(fullname.split('.')[2:])
+        return __import__(actual_name)
 
     def _install_module(self, fullname):
         if not self._is_installed(fullname):
@@ -51,7 +52,7 @@ class GithubComLoader:
         if self._is_intermediate_path(fullname):
             module = IntermediateModule(fullname)
         else:
-            module = __import__(self._get_module_name(fullname))
+            module = self._import_module(fullname)
 
         sys.modules[fullname] = module
 
